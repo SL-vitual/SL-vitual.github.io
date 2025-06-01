@@ -13,11 +13,13 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 h1 {
     text-align: center;
     color: #333;
+    margin-top: 0;
 }
 
 .week-navigation {
@@ -59,7 +61,106 @@ h1 {
     text-align: center;
     margin-top: 20px;
     color: #666;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
 }
 
 .btn-secondary {
-    background: #607d
+    background: #607d8b;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 设置面板样式 */
+.settings-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+    z-index: 10;
+}
+
+.settings-panel {
+    display: none;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    z-index: 10;
+    width: 250px;
+}
+
+.setting-group {
+    margin-bottom: 10px;
+}
+
+.setting-group label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+}
+
+.setting-group select, .setting-group input {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* 页脚作者信息 */
+.footer-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.footer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4CAF50;
+}
+
+.footer-bilibili-link {
+    color: #00A1D6;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-bilibili-link:hover {
+    text-decoration: underline;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .timetable td, .timetable th {
+        padding: 6px;
+        font-size: 12px;
+    }
+    .course {
+        font-size: 10px;
+    }
+    
+    .settings-panel {
+        width: 90%;
+        left: 5%;
+        right: auto;
+    }
+    
+    .setting-group label {
+        width: auto;
+        display: block;
+        margin-bottom: 5px;
+    }
+}
