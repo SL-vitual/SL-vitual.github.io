@@ -30,16 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const timetable = (function() {
-    // 私有变量
-    let timetableData = [];
-    let currentMode = '教师编辑模式';
-    let selectedCell = null;
-    let selectedCourseId = null;
-    let currentWeek = 16;
-    const MAX_WEEKS = 23;
-    const TEACHER_PASSWORD = "teacher@123";
-
-    // 公共方法
     return {
         init: function() {
             const savedBg = localStorage.getItem('timetableBg');
