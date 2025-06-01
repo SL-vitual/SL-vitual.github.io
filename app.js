@@ -1,4 +1,4 @@
-// 配置项
+/// 配置项
 const CONFIG = {
     sitePassword: "school2303",
     bilibiliUrl: "https://space.bilibili.com/你的B站ID",
@@ -19,8 +19,8 @@ const CONFIG = {
 // 密码保护功能
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化作者信息
-    document.getElementById('authorAvatar').src = CONFIG.avatarImage;
-    document.getElementById('bilibiliLink').href = CONFIG.bilibiliUrl;
+    document.getElementById('footerAvatar').src = CONFIG.avatarImage;
+    document.getElementById('footerBilibiliLink').href = CONFIG.bilibiliUrl;
     
     // 密码验证
     if(localStorage.getItem('siteAuth') !== 'true') {
