@@ -147,18 +147,28 @@ h1 {
 
 /* 响应式调整 */
 /* 禁用移动端响应式样式 */
+/* 移动端适配样式 */
 @media (max-width: 768px) {
-    .container, .timetable, .timetable td {
-        min-width: 1000px !important; /* 强制最小宽度 */
+    .container {
+        width: 100%;
+        padding: 10px;
+        backdrop-filter: none; /* 移动端禁用毛玻璃效果提升性能 */
     }
-    body {
-        overflow-x: auto !important; /* 允许横向滚动 */
+    
+    .timetable td {
+        height: 60px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .course {
+        font-size: 11px;
+        padding: 4px;
     }
 }
 
-/* Edge兼容性处理 */
-@supports not (backdrop-filter: blur(5px)) {
-    .container {
-        background: rgba(255, 255, 255, 0.85);
-    }
+/* 强制电脑版的特殊类 */
+.desktop-layout .container {
+    min-width: 1000px;
+    overflow-x: auto;
 }
