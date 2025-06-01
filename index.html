@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta name="viewport" content="width=1200"> <!-- 强制使用电脑端视口 -->
-    <script>
-    // 移动端强制使用电脑版布局
-    if(/Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-       document.querySelector('meta[name="viewport"]').content = 'width=1200, user-scalable=yes';
-       document.documentElement.style.fontSize = '16px'; // 保持电脑端文字大小
-   }
-</script>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script>
+     // 保留强制电脑版选项（通过URL参数控制）
+     if(window.location.search.includes('force_desktop=1')) {
+         document.querySelector('meta[name="viewport"]').content = 'width=1200';
+     }
+     </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
