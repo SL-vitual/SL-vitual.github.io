@@ -1,22 +1,33 @@
-const SITE_PASSWORD = "school123"; // 设置你的密码
-
-function checkSitePassword() {
-    const input = document.getElementById('sitePassword').value;
-    if (input === SITE_PASSWORD) {
-        localStorage.setItem('siteAuth', 'true'); // 记住验证状态
-        document.getElementById('passwordProtect').style.display = 'none';
-    } else {
-        document.getElementById('passwordError').style.display = 'block';
-    }
-}
-
-// 页面加载时检查
-if (localStorage.getItem('siteAuth') !== 'true') {
+// 在app.js最前面添加（确保DOM加载完成）
+document.addEventListener('DOMContentLoaded', function() {
+  const SITE_PASSWORD = "school2303"; // 改成你的密码
+  
+  // 检查是否已认证
+  if(localStorage.getItem('siteAuth') !== 'true') {
+    document.body.classList.add('protected-mode');
     document.getElementById('passwordProtect').style.display = 'flex';
-    document.getElementById('pageBody').style.display = 'none'; // 隐藏主内容
-} else {
-    document.getElementById('passwordProtect').style.display = 'none';
-}
+  }
+
+  // 绑定验证函数到全局
+  window.checkSitePassword = function() {
+    const input = document.getElementById('sitePassword').value;
+    if(input === SITE_PASSWORD) {
+      localStorage.setItem('siteAuth', 'true');
+      document.body.classList.remove('protected-mode');
+      document.getElementById('passwordProtect').style.display = 'none';
+      timetable.init(); // 确保课程表初始化
+    } else {
+      document.getElementById('passwordError').style.display = 'block';
+      document.getElementById('sitePassword').value = ''; // 清空输入框
+      document.getElementById('sitePassword').focus(); // 重新聚焦
+    }
+  }
+  
+  // 回车键支持
+  document.getElementById('sitePassword').addEventListener('keypress', function(e) {
+    if(e.key === 'Enter') checkSitePassword();
+  });
+});
 
 const timetable = (function() {
     // 私有变量
