@@ -146,25 +146,13 @@ h1 {
 }
 
 /* 响应式调整 */
+/* 禁用移动端响应式样式 */
 @media (max-width: 768px) {
-    .timetable td, .timetable th {
-        padding: 6px;
-        font-size: 12px;
+    .container, .timetable, .timetable td {
+        min-width: 1000px !important; /* 强制最小宽度 */
     }
-    .course {
-        font-size: 10px;
-    }
-    
-    .settings-panel {
-        width: 90%;
-        left: 5%;
-        right: auto;
-    }
-    
-    .setting-group label {
-        width: auto;
-        display: block;
-        margin-bottom: 5px;
+    body {
+        overflow-x: auto !important; /* 允许横向滚动 */
     }
 }
 
