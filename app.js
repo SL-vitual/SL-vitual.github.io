@@ -1,4 +1,3 @@
-// 在app.js最前面添加（确保DOM加载完成）
 document.addEventListener('DOMContentLoaded', function() {
   const SITE_PASSWORD = "school2303"; // 改成你的密码
   
@@ -30,14 +29,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const timetable = (function() {
-    // 私有变量
-    let timetableData = [];
-    let currentMode = '教师编辑模式';
-    let selectedCell = null;
-    let selectedCourseId = null;
-    let currentWeek = 16;
+    // 课程数据 - 直接定义在JS中
+    const timetableData = [
+        // 第1周课程示例
+        { week: 1, day: 0, time: 0, name: "数学", teacher: "张老师", classroom: "301", color: "#4CAF50" },
+        { week: 1, day: 0, time: 1, name: "英语", teacher: "李老师", classroom: "302", color: "#2196F3" },
+        { week: 1, day: 1, time: 2, name: "物理", teacher: "王老师", classroom: "实验室", color: "#9C27B0" },
+        { week: 1, day: 2, time: 3, name: "化学", teacher: "赵老师", classroom: "实验室", color: "#FF9800" },
+        { week: 1, day: 3, time: 4, name: "体育", teacher: "刘老师", classroom: "操场", color: "#795548" },
+        
+        // 第2周课程示例
+        { week: 2, day: 0, time: 0, name: "语文", teacher: "陈老师", classroom: "303", color: "#E91E63" },
+        { week: 2, day: 1, time: 1, name: "历史", teacher: "孙老师", classroom: "304", color: "#607D8B" },
+        { week: 2, day: 2, time: 2, name: "地理", teacher: "周老师", classroom: "305", color: "#3F51B5" },
+        
+        // 可以继续添加更多周的课程...
+    ];
+
+    let currentWeek = 1;
     const MAX_WEEKS = 23;
-    const TEACHER_PASSWORD = "teacher@123";
 
     // 公共方法
     return {
@@ -48,8 +58,9 @@ const timetable = (function() {
             }
             
             this.generateTimetable();
-            this.loadTimetable();
+            this.renderTimetable();
             this.updateWeekDisplay();
+            document.getElementById('weekNavigation').style.display = 'block';
         },
 
         generateTimetable: function() {
@@ -74,96 +85,11 @@ const timetable = (function() {
                     const cell = document.createElement('td');
                     cell.dataset.day = day;
                     cell.dataset.time = timeIndex;
-                    cell.addEventListener('click', this.handleCellClick.bind(this));
                     row.appendChild(cell);
                 }
                 
                 timetable.appendChild(row);
             });
-        },
-
-        handleCellClick: function(event) {
-            if (currentMode !== 'teacher') return;
-            
-            selectedCell = event.currentTarget;
-            const day = parseInt(selectedCell.dataset.day);
-            const time = parseInt(selectedCell.dataset.time);
-            
-            // 查找是否已有课程
-            const existingCourse = timetableData.find(c => c.day === day && c.time === time && c.week === currentWeek);
-            
-            if (existingCourse) {
-                // 编辑现有课程
-                selectedCourseId = existingCourse.id;
-                document.getElementById('modalTitle').textContent = '编辑课程';
-                document.getElementById('modalCourseName').value = existingCourse.name;
-                document.getElementById('modalTeacher').value = existingCourse.teacher;
-                document.getElementById('modalClassroom').value = existingCourse.classroom;
-                document.getElementById('modalColor').value = existingCourse.color || '#4CAF50';
-                document.getElementById('deleteCourseBtn').style.display = 'inline-block';
-            } else {
-                // 添加新课程
-                selectedCourseId = null;
-                document.getElementById('modalTitle').textContent = '添加课程';
-                document.getElementById('modalCourseName').value = '';
-                document.getElementById('modalTeacher').value = '';
-                document.getElementById('modalClassroom').value = '';
-                document.getElementById('modalColor').value = '#4CAF50';
-                document.getElementById('deleteCourseBtn').style.display = 'none';
-            }
-            
-            document.getElementById('courseModal').style.display = 'flex';
-        },
-
-        saveCourse: function() {
-            const name = document.getElementById('modalCourseName').value.trim();
-            if (!name) {
-                alert('请输入课程名称');
-                return;
-            }
-            
-            const day = parseInt(selectedCell.dataset.day);
-            const time = parseInt(selectedCell.dataset.time);
-            const teacher = document.getElementById('modalTeacher').value.trim();
-            const classroom = document.getElementById('modalClassroom').value.trim();
-            const color = document.getElementById('modalColor').value;
-            
-            if (selectedCourseId) {
-                // 更新现有课程
-                const index = timetableData.findIndex(c => c.id === selectedCourseId);
-                if (index !== -1) {
-                    timetableData[index] = {
-                        id: selectedCourseId,
-                        week: currentWeek,
-                        day, time, name, teacher, classroom, color
-                    };
-                }
-            } else {
-                // 添加新课程
-                const newCourse = {
-                    id: Date.now().toString(),
-                    week: currentWeek,
-                    day, time, name, teacher, classroom, color
-                };
-                timetableData.push(newCourse);
-            }
-            
-            this.renderTimetable();
-            this.closeModal();
-        },
-
-        deleteCourse: function() {
-            if (!selectedCourseId) return;
-            
-            if (confirm('确定要删除这个课程吗？')) {
-                timetableData = timetableData.filter(c => c.id !== selectedCourseId);
-                this.renderTimetable();
-                this.closeModal();
-            }
-        },
-
-        closeModal: function() {
-            document.getElementById('courseModal').style.display = 'none';
         },
 
         renderTimetable: function() {
@@ -189,127 +115,6 @@ const timetable = (function() {
             });
         },
 
-        setViewMode: function(mode) {
-            currentMode = mode;
-            
-            if (mode === 'teacher') {
-                document.getElementById('editIndicator').style.display = 'inline';
-                document.getElementById('timetableControls').style.display = 'block';
-                document.getElementById('bgControls').style.display = 'block';
-                document.getElementById('authPanel').style.display = 'none';
-                document.getElementById('weekNavigation').style.display = 'block';
-                
-                // 启用编辑功能
-                document.querySelectorAll('#timetable td[data-day]').forEach(cell => {
-                    cell.style.cursor = 'pointer';
-                });
-            } else {
-                document.getElementById('editIndicator').style.display = 'none';
-                document.getElementById('timetableControls').style.display = 'none';
-                document.getElementById('bgControls').style.display = 'none';
-                document.getElementById('authPanel').style.display = 'block';
-                document.getElementById('teacherLogin').style.display = 'none';
-                document.getElementById('passwordError').style.display = 'none';
-                document.getElementById('weekNavigation').style.display = 'block';
-                
-                // 禁用编辑功能
-                document.querySelectorAll('#timetable td[data-day]').forEach(cell => {
-                    cell.style.cursor = 'default';
-                });
-            }
-        },
-
-        showTeacherLogin: function() {
-            document.getElementById('teacherLogin').style.display = 'block';
-            document.getElementById('teacherPassword').value = '';
-            document.getElementById('teacherPassword').focus();
-            document.getElementById('passwordError').style.display = 'none';
-        },
-
-        checkTeacherPassword: function() {
-            const password = document.getElementById('teacherPassword').value;
-            if (password === TEACHER_PASSWORD) {
-                this.setViewMode('teacher');
-            } else {
-                document.getElementById('passwordError').style.display = 'block';
-                document.getElementById('teacherPassword').value = '';
-                document.getElementById('teacherPassword').focus();
-            }
-        },
-
-        togglePasswordVisibility: function() {
-            const passwordInput = document.getElementById('teacherPassword');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-            } else {
-                passwordInput.type = 'password';
-            }
-        },
-
-saveTimetable: function() {
-    const weekData = {
-        week: currentWeek,
-        courses: timetableData.filter(course => course.week === currentWeek)
-    };
-    
-    // 发送到服务器保存
-    fetch('save.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(weekData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            alert(`第${currentWeek}周课程表已保存！`);
-        } else {
-            alert('保存失败: ' + (data.error || '未知错误'));
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('保存失败，请检查网络连接');
-    });
-},
-
-loadTimetable: function() {
-    // 先从服务器加载
-    fetch(`data/week_${currentWeek}.json`)
-    .then(response => {
-        if(!response.ok) throw new Error('未找到数据');
-        return response.json();
-    })
-    .then(weekData => {
-        timetableData = timetableData.filter(course => course.week !== currentWeek);
-        timetableData = [...timetableData, ...(weekData.courses || [])];
-        this.renderTimetable();
-    })
-    .catch(error => {
-        console.log('从服务器加载失败，尝试从本地加载:', error);
-        // 如果服务器加载失败，尝试从本地加载
-        const savedData = localStorage.getItem(`classTimetable_week${currentWeek}`);
-        if (savedData) {
-            const weekData = JSON.parse(savedData);
-            timetableData = timetableData.filter(course => course.week !== currentWeek);
-            timetableData = [...timetableData, ...(weekData.courses || [])];
-        }
-        this.renderTimetable();
-    });
-},
-        showAddCourseModal: function() {
-            selectedCell = null;
-            selectedCourseId = null;
-            document.getElementById('modalTitle').textContent = '添加课程';
-            document.getElementById('modalCourseName').value = '';
-            document.getElementById('modalTeacher').value = '';
-            document.getElementById('modalClassroom').value = '';
-            document.getElementById('modalColor').value = '#4CAF50';
-            document.getElementById('deleteCourseBtn').style.display = 'none';
-            document.getElementById('courseModal').style.display = 'flex';
-        },
-
         changeBackground: function() {
             const bgUrl = document.getElementById('bgImageUrl').value.trim();
             if (bgUrl) {
@@ -332,7 +137,7 @@ loadTimetable: function() {
             if (currentWeek > 1) {
                 currentWeek--;
                 this.updateWeekDisplay();
-                this.loadTimetable();
+                this.renderTimetable();
             }
         },
 
@@ -340,7 +145,7 @@ loadTimetable: function() {
             if (currentWeek < MAX_WEEKS) {
                 currentWeek++;
                 this.updateWeekDisplay();
-                this.loadTimetable();
+                this.renderTimetable();
             }
         },
 
