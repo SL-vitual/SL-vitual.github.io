@@ -24,15 +24,6 @@
 </div>
 
 <div class="container">
-    <div class="author-info">
-        <img src="author-avatar.jpg" alt="作者头像" class="author-avatar" id="authorAvatar">
-        <div class="author-details">
-            <h2>课程表系统</h2>
-            <a href="#" target="_blank" class="bilibili-link" id="bilibiliLink">访问我的B站空间</a>
-        </div>
-        <div class="settings-toggle" onclick="toggleSettings()">⚙️</div>
-    </div>
-    
     <div id="settingsPanel" class="settings-panel">
         <h3>个性化设置</h3>
         <div class="setting-group">
@@ -67,6 +58,8 @@
     
     <h1>班级课程表管理系统</h1>
     
+    <div class="settings-toggle" onclick="toggleSettings()">⚙️</div>
+    
     <div class="week-navigation" id="weekNavigation">
         <button onclick="timetable.prevWeek()" class="btn-secondary">上一周</button>
         <span id="currentWeekDisplay">第1周</span>
@@ -93,6 +86,10 @@
     
     <div class="footer">
         <p>© 2025 班级课程表管理系统 - made by SL</p>
+        <div class="footer-author">
+            <img src="author-avatar.jpg" alt="作者头像" class="footer-avatar" id="footerAvatar">
+            <a href="#" target="_blank" class="footer-bilibili-link" id="footerBilibiliLink">访问我的B站空间</a>
+        </div>
     </div>
 </div>
 
