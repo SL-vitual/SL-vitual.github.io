@@ -60,18 +60,6 @@ h1 {
     margin: 2px;
 }
 
-.footer-avatar {
-    width: 40px;         /* 固定宽度 */
-    height: 40px;        /* 固定高度（与宽度相同保持圆形） */
-    min-width: 40px;     /* 防止被压缩 */
-    min-height: 40px;    /* 防止被压缩 */
-    border-radius: 50%;  /* 圆形效果 */
-    object-fit: cover;   /* 关键属性：裁剪适应容器 */
-    object-position: center; /* 居中裁剪 */
-    border: 2px solid #4CAF50;
-    overflow: hidden;    /* 隐藏超出部分（双重保险） */
-}
-
 /* 响应式调整 */
 @media (max-width: 768px) {
     .timetable td, .timetable th {
