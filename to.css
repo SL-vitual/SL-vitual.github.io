@@ -9,11 +9,12 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background: white;
+    background: rgba(255, 255, 255, 0.7); /* 白色背景，70%不透明度 */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     position: relative;
+    backdrop-filter: blur(5px); /* 可选：背景模糊效果，增强可读性 */
 }
 
 h1 {
@@ -48,6 +49,7 @@ h1 {
 .timetable td {
     height: 80px;
     vertical-align: top;
+    background: rgba(255, 255, 255, 0.5); /* 单元格半透明 */
 }
 
 .course {
@@ -55,6 +57,7 @@ h1 {
     padding: 6px;
     color: white;
     font-size: 14px;
+    background: rgba(0, 0, 0, 0.3); /* 课程块半透明深色，确保文字可读 */
 }
 
 .footer {
