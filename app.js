@@ -1,28 +1,18 @@
-/// 配置项
 const CONFIG = {
     sitePassword: "school2303",
-    bilibiliUrl: "https://space.bilibili.com/3546599114410457",
+    bilibiliUrl: "https://space.bilibili.com/你的B站ID",
     avatarImage: "author-avatar.jpg",
     backgroundOptions: [
         { value: "", label: "无背景" },
         { value: "bg1.jpg", label: "背景1" },
         { value: "bg2.jpg", label: "背景2" }
-    ],
-    fontOptions: [
-        { value: "'Arial', sans-serif", label: "默认" },
-        { value: "'Noto Sans SC', sans-serif", label: "思源黑体" },
-        { value: "'ZCOOL KuaiLe', cursive", label: "酷楷体" },
-        { value: "'Ma Shan Zheng', cursive", label: "马善政体" }
     ]
 };
 
-// 密码保护功能
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化作者信息
     document.getElementById('footerAvatar').src = CONFIG.avatarImage;
     document.getElementById('footerBilibiliLink').href = CONFIG.bilibiliUrl;
     
-    // 密码验证
     if(localStorage.getItem('siteAuth') !== 'true') {
         document.getElementById('passwordProtect').style.display = 'flex';
     }
@@ -39,20 +29,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sitePassword').value = '';
             document.getElementById('sitePassword').focus();
         }
-    }
+    };
     
     document.getElementById('sitePassword').addEventListener('keypress', function(e) {
         if(e.key === 'Enter') checkSitePassword();
     });
     
-    // 如果已经认证，初始化课程表
     if(localStorage.getItem('siteAuth') === 'true') {
         timetable.init();
         loadSettings();
     }
 });
 
-// 设置功能
 function toggleSettings() {
     const panel = document.getElementById('settingsPanel');
     panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
@@ -61,8 +49,6 @@ function toggleSettings() {
 function changeBackground() {
     const bg = document.getElementById('bgSelect').value;
     document.body.style.backgroundImage = bg ? `url(${bg})` : 'none';
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundAttachment = 'fixed';
     localStorage.setItem('background', bg);
 }
 
@@ -72,65 +58,30 @@ function changeFont() {
     localStorage.setItem('fontFamily', font);
 }
 
-function toggleBold() {
-    const isBold = document.getElementById('boldText').checked;
-    document.body.style.fontWeight = isBold ? 'bold' : 'normal';
-    localStorage.setItem('boldText', isBold);
-}
-
-function changeTextStroke() {
-    const stroke = document.getElementById('textStroke').value;
-    const textElements = document.querySelectorAll('h1, h2, h3, p, span, a, td, th');
-    
-    textElements.forEach(el => {
-        if(stroke === 'none') {
-            el.style.textShadow = 'none';
-        } else {
-            el.style.textShadow = `1px 1px 2px ${stroke}, -1px -1px 2px ${stroke}`;
-        }
-    });
-    localStorage.setItem('textStroke', stroke);
+function changeOpacity() {
+    const opacity = document.getElementById('opacityControl').value;
+    document.querySelector('.container').style.background = `rgba(255, 255, 255, ${opacity})`;
+    localStorage.setItem('containerOpacity', opacity);
 }
 
 function loadSettings() {
-    // 背景
     const savedBg = localStorage.getItem('background') || '';
     document.getElementById('bgSelect').value = savedBg;
     document.body.style.backgroundImage = savedBg ? `url(${savedBg})` : 'none';
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundAttachment = 'fixed';
-    
-    // 字体
+
     const savedFont = localStorage.getItem('fontFamily') || "'Arial', sans-serif";
     document.getElementById('fontSelect').value = savedFont;
     document.body.style.fontFamily = savedFont;
-    
-    // 加粗
-    const savedBold = localStorage.getItem('boldText') === 'true';
-    document.getElementById('boldText').checked = savedBold;
-    document.body.style.fontWeight = savedBold ? 'bold' : 'normal';
-    
-    // 描边
-    const savedStroke = localStorage.getItem('textStroke') || 'none';
-    document.getElementById('textStroke').value = savedStroke;
-    const textElements = document.querySelectorAll('h1, h2, h3, p, span, a, td, th');
-    textElements.forEach(el => {
-        if(savedStroke === 'none') {
-            el.style.textShadow = 'none';
-        } else {
-            el.style.textShadow = `1px 1px 2px ${savedStroke}, -1px -1px 2px ${savedStroke}`;
-        }
-    });
+
+    const savedOpacity = localStorage.getItem('containerOpacity') || '0.7';
+    document.getElementById('opacityControl').value = savedOpacity;
+    document.querySelector('.container').style.background = `rgba(255, 255, 255, ${savedOpacity})`;
 }
 
-// 课程表功能
 const timetable = (function() {
-    // 硬编码的课程数据
     const timetableData = [
-        // 第1周
-        { week: 1, day: 0, time: 0, name: "数学", teacher: "张老师", classroom: "301", color: "#4CAF50" },
-        { week: 1, day: 0, time: 1, name: "英语", teacher: "李老师", classroom: "302", color: "#2196F3" },
-        // 可以继续添加其他课程...
+        { week: 1, day: 0, time: 0, name: "数学", teacher: "张老师", classroom: "301", color: "rgba(76, 175, 80, 0.8)" },
+        { week: 1, day: 0, time: 1, name: "英语", teacher: "李老师", classroom: "302", color: "rgba(33, 150, 243, 0.8)" },
     ];
 
     let currentWeek = 1;
@@ -143,7 +94,6 @@ const timetable = (function() {
             this.updateWeekDisplay();
             document.getElementById('weekNavigation').style.display = 'block';
         },
-
         generateTimetable: function() {
             const tbody = document.querySelector('#timetable tbody');
             tbody.innerHTML = '';
@@ -163,7 +113,6 @@ const timetable = (function() {
                 tbody.appendChild(row);
             });
         },
-
         renderTimetable: function() {
             document.querySelectorAll('#timetable td[data-day]').forEach(cell => {
                 cell.innerHTML = '';
@@ -186,7 +135,6 @@ const timetable = (function() {
                     }
                 });
         },
-
         prevWeek: function() {
             if (currentWeek > 1) {
                 currentWeek--;
@@ -194,7 +142,6 @@ const timetable = (function() {
                 this.renderTimetable();
             }
         },
-
         nextWeek: function() {
             if (currentWeek < MAX_WEEKS) {
                 currentWeek++;
@@ -202,7 +149,6 @@ const timetable = (function() {
                 this.renderTimetable();
             }
         },
-
         updateWeekDisplay: function() {
             document.getElementById('currentWeekDisplay').textContent = `第${currentWeek}周`;
         }
