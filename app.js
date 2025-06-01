@@ -1,34 +1,3 @@
-// 在app.js最前面添加（确保DOM加载完成）
-document.addEventListener('DOMContentLoaded', function() {
-  const SITE_PASSWORD = "school2303"; // 改成你的密码
-  
-  // 检查是否已认证
-  if(localStorage.getItem('siteAuth') !== 'true') {
-    document.body.classList.add('protected-mode');
-    document.getElementById('passwordProtect').style.display = 'flex';
-  }
-
-  // 绑定验证函数到全局
-  window.checkSitePassword = function() {
-    const input = document.getElementById('sitePassword').value;
-    if(input === SITE_PASSWORD) {
-      localStorage.setItem('siteAuth', 'true');
-      document.body.classList.remove('protected-mode');
-      document.getElementById('passwordProtect').style.display = 'none';
-      timetable.init(); // 确保课程表初始化
-    } else {
-      document.getElementById('passwordError').style.display = 'block';
-      document.getElementById('sitePassword').value = ''; // 清空输入框
-      document.getElementById('sitePassword').focus(); // 重新聚焦
-    }
-  }
-  
-  // 回车键支持
-  document.getElementById('sitePassword').addEventListener('keypress', function(e) {
-    if(e.key === 'Enter') checkSitePassword();
-  });
-});
-
 const timetable = (function() {
     // 私有变量
     let timetableData = [];
@@ -42,6 +11,9 @@ const timetable = (function() {
     // 公共方法
     return {
         init: function() {
+            // 只有通过密码验证后才初始化
+            if(localStorage.getItem('siteAuth') !== 'true') return;
+            
             const savedBg = localStorage.getItem('timetableBg');
             if (savedBg) {
                 document.body.style.backgroundImage = `url('${savedBg}')`;
@@ -50,6 +22,9 @@ const timetable = (function() {
             this.generateTimetable();
             this.loadTimetable();
             this.updateWeekDisplay();
+            
+            // 显示主内容
+            document.getElementById('mainContent').style.display = 'block';
         },
 
         generateTimetable: function() {
