@@ -1,7 +1,7 @@
 const CONFIG = {
     sitePassword: "school2303",
-    bilibiliUrl: "https://space.bilibili.com/3546599114410457",
-    avatarImage: "sl-summer.png",
+    bilibiliUrl: "https://space.bilibili.com/你的B站ID",
+    avatarImage: "author-avatar.jpg",
     backgroundOptions: [
         { value: "", label: "无背景" },
         { value: "bg1.jpg", label: "背景1" },
