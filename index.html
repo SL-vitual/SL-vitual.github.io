@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>班级课程表管理系统</title>
     <link rel="stylesheet" href="to.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="passwordProtect" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);backdrop-filter:blur(5px);z-index:9999;display:none;justify-content:center;align-items:center;color:white;">
@@ -23,6 +24,47 @@
 </div>
 
 <div class="container">
+    <div class="author-info">
+        <img src="author-avatar.jpg" alt="作者头像" class="author-avatar" id="authorAvatar">
+        <div class="author-details">
+            <h2>课程表系统</h2>
+            <a href="#" target="_blank" class="bilibili-link" id="bilibiliLink">访问我的B站空间</a>
+        </div>
+        <div class="settings-toggle" onclick="toggleSettings()">⚙️</div>
+    </div>
+    
+    <div id="settingsPanel" class="settings-panel">
+        <h3>个性化设置</h3>
+        <div class="setting-group">
+            <label>背景图片:</label>
+            <select id="bgSelect" onchange="changeBackground()">
+                <option value="">无背景</option>
+                <option value="bg1.jpg">背景1</option>
+                <option value="bg2.jpg">背景2</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label>字体样式:</label>
+            <select id="fontSelect" onchange="changeFont()">
+                <option value="'Arial', sans-serif">默认</option>
+                <option value="'Noto Sans SC', sans-serif">思源黑体</option>
+                <option value="'ZCOOL KuaiLe', cursive">酷楷体</option>
+                <option value="'Ma Shan Zheng', cursive">马善政体</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label>文字效果:</label>
+            <div>
+                <input type="checkbox" id="boldText" onchange="toggleBold()"> <label for="boldText">加粗</label>
+                <select id="textStroke" onchange="changeTextStroke()">
+                    <option value="none">无描边</option>
+                    <option value="white">白色描边</option>
+                    <option value="black">黑色描边</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
     <h1>班级课程表管理系统</h1>
     
     <div class="week-navigation" id="weekNavigation">
@@ -55,12 +97,5 @@
 </div>
 
 <script src="app.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        timetable.init();
-    });
-</script>
-</body>
-</html>
 </body>
 </html>
