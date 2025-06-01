@@ -3,9 +3,9 @@ const CONFIG = {
     bilibiliUrl: "https://space.bilibili.com/3546599114410457",
     avatarImage: "IMG_202506023085_128x128.png",
     backgroundOptions: [
-        { value: "", label: "纯白色" },
+        { value: "4月掉粉月刊.png", label: "工地工人" },
         { value: "粉舰周刊2.png", label: "实验室研究员" },
-        { value: "4月掉粉月刊.png", label: "工地工人" }
+        { value: "", label: "纯白色" }
     ]
 };
 
