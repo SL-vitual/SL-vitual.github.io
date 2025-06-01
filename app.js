@@ -215,30 +215,58 @@ const timetable = (function() {
             }
         },
 
-        saveTimetable: function() {
-            const weekData = {
-                week: currentWeek,
-                courses: timetableData.filter(course => course.week === currentWeek)
-            };
-            localStorage.setItem(`classTimetable_week${currentWeek}`, JSON.stringify(weekData));
+saveTimetable: function() {
+    const weekData = {
+        week: currentWeek,
+        courses: timetableData.filter(course => course.week === currentWeek)
+    };
+    
+    // 发送到服务器保存
+    fetch('save.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(weekData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
             alert(`第${currentWeek}周课程表已保存！`);
-        },
+        } else {
+            alert('保存失败: ' + (data.error || '未知错误'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('保存失败，请检查网络连接');
+    });
+},
 
-        loadTimetable: function() {
-            const savedData = localStorage.getItem(`classTimetable_week${currentWeek}`);
-            timetableData = timetableData.filter(course => course.week !== currentWeek); // 先移除当前周的数据
-            
-            if (savedData) {
-                const weekData = JSON.parse(savedData);
-                // 合并数据，保留其他周的课程
-                timetableData = [
-                    ...timetableData,
-                    ...(weekData.courses || [])
-                ];
-            }
-            this.renderTimetable();
-        },
-
+loadTimetable: function() {
+    // 先从服务器加载
+    fetch(`data/week_${currentWeek}.json`)
+    .then(response => {
+        if(!response.ok) throw new Error('未找到数据');
+        return response.json();
+    })
+    .then(weekData => {
+        timetableData = timetableData.filter(course => course.week !== currentWeek);
+        timetableData = [...timetableData, ...(weekData.courses || [])];
+        this.renderTimetable();
+    })
+    .catch(error => {
+        console.log('从服务器加载失败，尝试从本地加载:', error);
+        // 如果服务器加载失败，尝试从本地加载
+        const savedData = localStorage.getItem(`classTimetable_week${currentWeek}`);
+        if (savedData) {
+            const weekData = JSON.parse(savedData);
+            timetableData = timetableData.filter(course => course.week !== currentWeek);
+            timetableData = [...timetableData, ...(weekData.courses || [])];
+        }
+        this.renderTimetable();
+    });
+},
         showAddCourseModal: function() {
             selectedCell = null;
             selectedCourseId = null;
