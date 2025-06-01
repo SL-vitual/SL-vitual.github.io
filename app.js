@@ -84,7 +84,7 @@ const timetable = (function() {
         { week: 1, day: 0, time: 1, name: "英语", teacher: "李老师", classroom: "302", color: "rgba(33, 150, 243, 0.8)" },
     ];
 
-    let currentWeek = 1;
+    let currentWeek = 16;
     const MAX_WEEKS = 23;
 
     return {
