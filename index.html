@@ -31,21 +31,6 @@
             <button onclick="timetable.nextWeek()" class="btn-secondary">下一周</button>
         </div>
         
-        <div class="auth-panel" id="authPanel">
-            <h3>请选择访问模式</h3>
-            <button onclick="timetable.setViewMode('student')" class="btn-primary">学生查看模式</button>
-            <button onclick="timetable.showTeacherLogin()" class="btn-primary">教师编辑模式</button>
-            <div id="teacherLogin" style="display:none; margin-top:15px;">
-                <div class="form-group password-input">
-                    <label for="teacherPassword">教师密码</label>
-                    <input type="password" id="teacherPassword" placeholder="请输入教师密码">
-                    <span class="toggle-password" onclick="timetable.togglePasswordVisibility()">👁️</span>
-                </div>
-                <button onclick="timetable.checkTeacherPassword()" class="btn-primary">确认</button>
-                <div id="passwordError" style="color:red; margin-top:10px; display:none;">密码错误，请重试！</div>
-            </div>
-        </div>
-        
         <div class="bg-controls" id="bgControls" style="display:none;">
             <h3>背景设置</h3>
             <div class="form-group">
