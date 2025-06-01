@@ -235,12 +235,6 @@ const timetable = (function() {
                 passwordInput.type = 'password';
             }
         },
-
-saveTimetable: function() {
-    const weekData = {
-        week: currentWeek,
-        courses: timetableData.filter(course => course.week === currentWeek)
-    };
     
     // 发送到服务器保存
     fetch('save.php', {
