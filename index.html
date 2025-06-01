@@ -6,7 +6,7 @@
     <title>班级课程表管理系统</title>
     <link rel="stylesheet" href="to.css">
 </head>
-<body id="pageBody">
+<body>
 <div id="passwordProtect" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);backdrop-filter:blur(5px);z-index:9999;display:none;justify-content:center;align-items:center;color:white;">
   <div style="background:#222;padding:30px;border-radius:10px;text-align:center;box-shadow:0 0 20px rgba(0,0,0,0.5);width:300px;max-width:90%;">
     <h2 style="margin-top:0;color:#4CAF50;">班级专属访问</h2>
@@ -21,61 +21,46 @@
     </button>
   </div>
 </div>
-    
-    <div class="container">
-        <h1>班级课程表管理系统</h1>
-        
-        <div class="week-navigation" id="weekNavigation">
-            <button onclick="timetable.prevWeek()" class="btn-secondary">上一周</button>
-            <span id="currentWeekDisplay">第1周</span>
-            <button onclick="timetable.nextWeek()" class="btn-secondary">下一周</button>
-        </div>
-        
-        <div class="bg-controls" id="bgControls">
-            <h3>背景设置</h3>
-            <div class="form-group">
-                <label for="bgImageUrl">背景图片URL</label>
-                <input type="text" id="bgImageUrl" placeholder="输入图片链接">
-            </div>
-            <button onclick="timetable.changeBackground()" class="btn-secondary">应用背景</button>
-            <button onclick="timetable.resetBackground()" class="btn-secondary">重置背景</button>
-        </div>
-        
-        <table class="timetable" id="timetable">
-            <thead>
-                <tr>
-                    <th>时间</th>
-                    <th>周一</th>
-                    <th>周二</th>
-                    <th>周三</th>
-                    <th>周四</th>
-                    <th>周五</th>
-                    <th>周六</th>
-                    <th>周日</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- 时间行会通过JS动态生成 -->
-            </tbody>
-        </table>
-        
-        <div class="footer">
-            <p>© 2025 班级课程表管理系统 - made by SL</p>
-            <div class="creator-info">
-                <img src="https://i2.hdslb.com/bfs/face/32d2685ab618a5a09ee34d23eda08e15072bc759.jpg" alt="开发者头像" class="creator-avatar" id="creatorAvatar">
-                <a href="https://space.bilibili.com/3546599114410457" target="_blank" style="color:#fb7299; text-decoration:none;">
-                    开发者的B站主页
-                </a>
-            </div>
-        </div>
-    </div>
 
-    <script src="app.js"></script>
-    <script>
-        // 初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            timetable.init();
-        });
-    </script>
+<div class="container">
+    <h1>班级课程表管理系统</h1>
+    
+    <div class="week-navigation" id="weekNavigation">
+        <button onclick="timetable.prevWeek()" class="btn-secondary">上一周</button>
+        <span id="currentWeekDisplay">第1周</span>
+        <button onclick="timetable.nextWeek()" class="btn-secondary">下一周</button>
+    </div>
+    
+    <table class="timetable" id="timetable">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>周一</th>
+                <th>周二</th>
+                <th>周三</th>
+                <th>周四</th>
+                <th>周五</th>
+                <th>周六</th>
+                <th>周日</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 时间行会通过JS动态生成 -->
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        <p>© 2025 班级课程表管理系统 - made by SL</p>
+    </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        timetable.init();
+    });
+</script>
+</body>
+</html>
 </body>
 </html>
