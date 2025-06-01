@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级课程表管理系统</title>
+    <link rel="stylesheet" href="to.css">
+</head>
+<body id="pageBody">
+    <div class="container">
+        <h1>班级课程表管理系统 <span id="editIndicator" class="edit-mode-indicator" style="display:none;">编辑模式</span></h1>
+        
+        <div class="week-navigation" id="weekNavigation">
+            <button onclick="timetable.prevWeek()" class="btn-secondary">上一周</button>
+            <span id="currentWeekDisplay">第1周</span>
+            <button onclick="timetable.nextWeek()" class="btn-secondary">下一周</button>
+        </div>
+        
+        <div class="auth-panel" id="authPanel">
+            <h3>请选择访问模式</h3>
+            <button onclick="timetable.setViewMode('student')" class="btn-primary">学生查看模式</button>
+            <button onclick="timetable.showTeacherLogin()" class="btn-primary">教师编辑模式</button>
+            <div id="teacherLogin" style="display:none; margin-top:15px;">
+                <div class="form-group password-input">
+                    <label for="teacherPassword">教师密码</label>
+                    <input type="password" id="teacherPassword" placeholder="请输入教师密码">
+                    <span class="toggle-password" onclick="timetable.togglePasswordVisibility()">👁️</span>
+                </div>
+                <button onclick="timetable.checkTeacherPassword()" class="btn-primary">确认</button>
+                <div id="passwordError" style="color:red; margin-top:10px; display:none;">密码错误，请重试！</div>
+            </div>
+        </div>
+        
+        <div class="bg-controls" id="bgControls" style="display:none;">
+            <h3>背景设置</h3>
+            <div class="form-group">
+                <label for="bgImageUrl">背景图片URL</label>
+                <input type="text" id="bgImageUrl" placeholder="输入图片链接">
+            </div>
+            <button onclick="timetable.changeBackground()" class="btn-secondary">应用背景</button>
+            <button onclick="timetable.resetBackground()" class="btn-secondary">重置背景</button>
+        </div>
+        
+        <div class="timetable-controls" id="timetableControls" style="display:none;">
+            <button onclick="timetable.showAddCourseModal()" class="btn-primary">添加课程(实际上按不动，点课程表格子能直接编辑)</button>
+            <button onclick="timetable.saveTimetable()" class="btn-primary">保存课程表</button>
+            <button onclick="timetable.setViewMode('student')" class="btn-secondary">退出编辑模式</button>
+        </div>
+        
+        <table class="timetable" id="timetable">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>周一</th>
+                    <th>周二</th>
+                    <th>周三</th>
+                    <th>周四</th>
+                    <th>周五</th>
+                    <th>周六</th>
+                    <th>周日</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 时间行会通过JS动态生成 -->
+            </tbody>
+        </table>
+        
+        <!-- 课程编辑模态框 -->
+        <div class="modal" id="courseModal">
+            <div class="modal-content">
+                <h3 id="modalTitle">添加课程</h3>
+                <div class="form-group">
+                    <label for="modalCourseName">课程名称</label>
+                    <input type="text" id="modalCourseName" placeholder="例如: 数学">
+                </div>
+                <div class="form-group">
+                    <label for="modalTeacher">教师</label>
+                    <input type="text" id="modalTeacher" placeholder="例如: 张老师">
+                </div>
+                <div class="form-group">
+                    <label for="modalClassroom">教室</label>
+                    <input type="text" id="modalClassroom" placeholder="例如: 301教室">
+                </div>
+                <div class="form-group">
+                    <label for="modalColor">课程颜色</label>
+                    <input type="color" id="modalColor" value="#4CAF50">
+                </div>
+                <div class="button-group">
+                    <button onclick="timetable.saveCourse()" class="btn-primary" id="saveCourseBtn">保存</button>
+                    <button onclick="timetable.deleteCourse()" class="btn-danger" id="deleteCourseBtn" style="display:none;">删除</button>
+                    <button onclick="timetable.closeModal()" class="btn-secondary">取消</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 班级课程表管理系统 - made by SL</p>
+            <div class="creator-info">
+                <img src="https://i2.hdslb.com/bfs/face/32d2685ab618a5a09ee34d23eda08e15072bc759.jpg" alt="开发者头像" class="creator-avatar" id="creatorAvatar">
+                <a href="https://space.bilibili.com/3546599114410457" target="_blank" style="color:#fb7299; text-decoration:none;">
+                    开发者的B站主页
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('creatorAvatar').src = 'https://i2.hdslb.com/bfs/face/32d2685ab618a5a09ee34d23eda08e15072bc759.jpg';
+            timetable.init();
+        });
+    </script>
+</body>
+</html>
