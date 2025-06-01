@@ -78,6 +78,20 @@ function loadSettings() {
     document.querySelector('.container').style.background = `rgba(255, 255, 255, ${savedOpacity})`;
 }
 
+function switchLayout(mode) {
+    if(mode === 'desktop') {
+        document.body.classList.add('desktop-layout');
+        localStorage.setItem('preferredLayout', 'desktop');
+    } else {
+        document.body.classList.remove('desktop-layout');
+        localStorage.setItem('preferredLayout', 'mobile');
+    }
+}
+
+// 初始化时读取用户偏好
+const savedLayout = localStorage.getItem('preferredLayout') || 'mobile';
+switchLayout(savedLayout);
+
 const timetable = (function() {
     const timetableData = [
         { week: 1, day: 0, time: 0, name: "数学", teacher: "张老师", classroom: "301", color: "rgba(76, 175, 80, 0.8)" },
