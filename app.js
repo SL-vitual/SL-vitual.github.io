@@ -1,3 +1,23 @@
+const SITE_PASSWORD = "school123"; // 设置你的密码
+
+function checkSitePassword() {
+    const input = document.getElementById('sitePassword').value;
+    if (input === SITE_PASSWORD) {
+        localStorage.setItem('siteAuth', 'true'); // 记住验证状态
+        document.getElementById('passwordProtect').style.display = 'none';
+    } else {
+        document.getElementById('passwordError').style.display = 'block';
+    }
+}
+
+// 页面加载时检查
+if (localStorage.getItem('siteAuth') !== 'true') {
+    document.getElementById('passwordProtect').style.display = 'flex';
+    document.getElementById('pageBody').style.display = 'none'; // 隐藏主内容
+} else {
+    document.getElementById('passwordProtect').style.display = 'none';
+}
+
 const timetable = (function() {
     // 私有变量
     let timetableData = [];
