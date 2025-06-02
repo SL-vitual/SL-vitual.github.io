@@ -121,6 +121,7 @@ h1 {
 /* 页脚作者信息 */
 .footer-author {
     display: flex;
+    background: #000000;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
