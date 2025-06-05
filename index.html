@@ -14,51 +14,25 @@
     <title>测绘1-3班方案二学生课程表</title>
         <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
-            background-color: #000000;
-            background-image: url('4月掉粉月刊.png');
-            background-size: cover;
-            background-attachment: fixed;
-            transition: all 0.3s ease;
-            color: #333;
-            position: relative; /* 为body设置相对定位，以便子元素使用绝对定位 */
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-
         #beijing-time {
-            font-size: 20px; /* 调整字体大小 */
-            color: #fff; /* 时间文本颜色改为白色 */
+            font-size: 20px;
+            color: #333;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */
-            padding: 10px 20px; /* 调整内边距 */
+            background-color: #fff;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: auto; /* 设置自适应宽度 */
-            min-width: 200px; /* 设置固定宽度 */
-            height: auto; /* 设置自适应高度 */
-            min-height: 60px; /* 设置固定高度 */
-            line-height: 60px; /* 使文本垂直居中 */
-            box-sizing: border-box; /* 确保内边距和边框包含在宽度和高度内 */
-            position: absolute; /* 设置绝对定位 */
-            top: 20px; /* 距离顶部20px */
-            right: 20px; /* 距离右侧20px */
-            transition: all 0.3s ease; /* 添加过渡效果 */
-            display: flex;
-            flex-direction: column;
-            gap: 4px; /* 两行之间的间距 */
         }
-
-        #settings-toggle {
-            font-size: 30px; /* 增加字体大小 */
-            padding: 10px 20px; /* 增加内边距 */
-            border-radius: 8px; /* 圆角边框 */
-            background-color: rgba(255, 255, 255, 0.5); /* 半透明背景色 */
-            cursor: pointer; /* 鼠标悬停时显示为指针 */
-            transition: all 0.3s ease; /* 添加过渡效果 */
-        }
-        </style>
-
+    </style>
     <link rel="stylesheet" href="to.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -82,32 +56,6 @@
     <button onclick="switchLayout('mobile')">移动版</button>
     <button onclick="switchLayout('desktop')">电脑版</button>
 </div>
-
-    <script>
-        function updateBeijingTime() {
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const day = date.getDate().toString().padStart(2, '0');
-            const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-            const formatter = new Intl.DateTimeFormat('zh-CN', options);
-            const beijingTime = new Date();
-            const formattedTime = formatter.format(beijingTime);
-
-            // 中文星期几映射
-            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-            const weekday = weekdays[date.getDay()];
-
-
-            document.getElementById('beijing-time').textContent = formattedTime;
-        }
-
-        setInterval(updateBeijingTime, 1000); // 每秒更新一次时间
-        updateBeijingTime(); // 初始调用以显示时间
-
-    </script>
 
 <div class="container">
     <div id="settingsPanel" class="settings-panel">
@@ -137,8 +85,7 @@
 
     <div id="beijing-time"></div>
     
-    <div class="settings-toggle" onclick="toggleSettings()">🛠️
-    </div>
+    <div class="settings-toggle" onclick="toggleSettings()">⚙️</div>
     
     <div class="week-navigation" id="weekNavigation">
         <button onclick="timetable.prevWeek()" class="btn-secondary">上一周</button>
@@ -173,7 +120,7 @@
             <a href="leave.html" class="footer-link">请假条beta</a>
             <span>|</span>
             <img src="author-avatar.jpg" alt="作者头像" class="footer-avatar" id="footerAvatar">
-            <a href="#" target="_blank" class="footer-bilibili-link" id="footerBilibiliLink">作者的哔哩哔哩主页</a>
+            <a href="#" target="_blank" class="footer-bilibili-link" id="footerBilibiliLink">访问作者的哔哩哔哩主页</a>
         </div>
     </div>
 </div>
