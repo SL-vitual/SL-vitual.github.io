@@ -244,27 +244,6 @@ h1 {
 }
 
 /* 响应式调整 */
-@media (max-width: 768px) {
-    .leave-gallery {
-        grid-template-columns: 1fr;
-    }
-    
-    .leave-info {
-        padding: 8px;
-    }
-    
-    .modal-content {
-        max-width: 95%;
-    }
-    
-    .close-modal {
-        top: 10px;
-        right: 20px;
-        font-size: 30px;
-    }
-}
-
-/* 响应式调整 */
 /* 禁用移动端响应式样式 */
 /* 移动端适配样式 */
 @media (max-width: 768px) {
@@ -283,6 +262,25 @@ h1 {
     .course {
         font-size: 11px;
         padding: 4px;
+    }
+}
+
+    .leave-gallery {
+        grid-template-columns: 1fr;
+    }
+    
+    .leave-info {
+        padding: 8px;
+    }
+    
+    .modal-content {
+        max-width: 95%;
+    }
+    
+    .close-modal {
+        top: 10px;
+        right: 20px;
+        font-size: 30px;
     }
 }
 
