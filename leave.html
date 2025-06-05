@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>请假条展示 - 班级课程表管理系统</title>
-    <link rel="stylesheet" href="to.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
         /* 请假条图片展示专用样式 */
         .leave-gallery {
             display: grid;
@@ -20,23 +49,26 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: white;
         }
         
         .leave-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .leave-img {
             width: 100%;
-            height: auto;
+            height: 200px;
+            object-fit: cover;
             display: block;
-            border: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
         }
         
         .leave-info {
-            padding: 12px;
-            background: white;
+            padding: 15px;
         }
         
         .leave-meta {
@@ -61,6 +93,7 @@
             margin-bottom: 30px;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
         
         .upload-area:hover {
@@ -68,10 +101,153 @@
             background: #f8f8f8;
         }
         
+        .upload-area.active {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
         .upload-icon {
             font-size: 48px;
             color: #4CAF50;
             margin-bottom: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-main {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-main:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 13px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            display: block;
+            margin: 5% auto;
+            max-width: 90%;
+            max-height: 80vh;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: #ccc;
+        }
+        
+        #caption {
+            margin: 15px auto;
+            text-align: center;
+            color: white;
+            width: 80%;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .leave-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+        
+        /* 上传进度 */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: #f1f1f1;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* 空状态提示 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #ccc;
         }
     </style>
 </head>
@@ -88,11 +264,20 @@
         <div class="upload-icon">📤</div>
         <h3>点击或拖拽上传请假条图片</h3>
         <p>支持 JPG/PNG 格式，每张图片不超过5MB</p>
-        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+        <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
     </div>
     
     <!-- 请假条图片展示区 -->
     <div class="leave-gallery" id="leaveGallery">
+        <div class="empty-state" id="emptyState">
+            <i>📷</i>
+            <h3>暂无请假条图片</h3>
+            <p>上传图片后将会显示在这里</p>
+        </div>
+    </div>
     
     <!-- 统一页脚 -->
     <div class="footer">
@@ -113,14 +298,16 @@
     <div id="caption"></div>
 </div>
 
-<script src="app.js"></script>
 <script>
-// 从主app.js中共享的配置
+// 配置信息
 const CONFIG = {
     bilibiliUrl: "https://space.bilibili.com/你的B站ID",
-    avatarImage: "author-avatar.jpg"
+    avatarImage: "author-avatar.jpg",
+    maxFileSize: 5 * 1024 * 1024, // 5MB
+    allowedTypes: ['image/jpeg', 'image/png', 'image/gif']
 };
 
+// 初始化函数
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化作者信息
     document.getElementById('footerAvatar').src = CONFIG.avatarImage;
@@ -134,18 +321,73 @@ document.addEventListener('DOMContentLoaded', function() {
     // 文件选择处理
     document.getElementById('fileInput').addEventListener('change', handleFileSelect);
     
+    // 拖拽上传功能
+    setupDragAndDrop();
+    
+    // 加载本地存储的图片
+    loadStoredImages();
+    
     // 应用保存的个性化设置
     applySavedSettings();
-    
-    // 为所有查看按钮添加点击事件
-    document.querySelectorAll('.leave-actions .btn-main').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const imgSrc = this.closest('.leave-item').querySelector('img').src;
-            openModal(imgSrc);
-        });
-    });
 });
 
+// 设置拖拽上传
+function setupDragAndDrop() {
+    const uploadArea = document.getElementById('uploadArea');
+    
+    // 阻止默认拖拽行为
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    // 高亮显示拖拽区域
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    // 处理拖放文件
+    uploadArea.addEventListener('drop', handleDrop, false);
+}
+
+function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+function highlight() {
+    document.getElementById('uploadArea').classList.add('active');
+}
+
+function unhighlight() {
+    document.getElementById('uploadArea').classList.remove('active');
+}
+
+function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    
+    if (files.length > 0) {
+        handleFileSelect({ target: { files } });
+    }
+}
+
+// 加载本地存储的图片
+function loadStoredImages() {
+    const storedItems = localStorage.getItem('leaveItems');
+    if (storedItems) {
+        const items = JSON.parse(storedItems);
+        items.forEach(item => {
+            addLeaveItem(item.imageSrc, item.studentName, item.date, false);
+        });
+    }
+}
+
+// 应用保存的设置
 function applySavedSettings() {
     // 字体
     const savedFont = localStorage.getItem('fontFamily');
@@ -167,71 +409,151 @@ function applySavedSettings() {
     }
 }
 
+// 处理文件选择
 function handleFileSelect(event) {
     const files = event.target.files;
     if (files.length === 0) return;
     
-    const file = files[0];
-    if (!file.type.match('image.*')) {
-        alert('请选择图片文件');
-        return;
-    }
+    // 显示进度条
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    progressContainer.style.display = 'block';
+    progressBar.style.width = '0%';
     
-    if (file.size > 5 * 1024 * 1024) {
-        alert('图片大小不能超过5MB');
-        return;
-    }
+    let processed = 0;
     
-    // 这里添加实际的上传逻辑
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        addLeaveItem(e.target.result, file.name, new Date().toISOString().split('T')[0]);
-    };
-    reader.readAsDataURL(file);
-}
-
-function addLeaveItem(imageSrc, studentName, date) {
-    const gallery = document.getElementById('leaveGallery');
-    const name = studentName.split('.')[0]; // 简单处理文件名
-    
-    gallery.insertAdjacentHTML('afterbegin', `
-        <div class="leave-item">
-            <img src="${imageSrc}" alt="${name}的请假条" class="leave-img">
-            <div class="leave-info">
-                <div class="leave-meta">
-                    <span>${name}</span>
-                    <span>${date}</span>
-                </div>
-                <div class="leave-actions">
-                    <button class="btn btn-main btn-sm">查看详情</button>
-                    <button class="btn btn-danger btn-sm">删除</button>
-                </div>
-            </div>
-        </div>
-    `);
-    
-    // 为新添加的按钮绑定事件
-    gallery.querySelector('.leave-item .btn-main').addEventListener('click', function() {
-        openModal(imageSrc);
+    Array.from(files).forEach((file, index) => {
+        if (!CONFIG.allowedTypes.includes(file.type)) {
+            alert(`文件 ${file.name} 不是支持的图片格式`);
+            return;
+        }
+        
+        if (file.size > CONFIG.maxFileSize) {
+            alert(`文件 ${file.name} 超过5MB限制`);
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const date = new Date().toISOString().split('T')[0];
+            const name = file.name.split('.')[0]; // 简单处理文件名
+            
+            addLeaveItem(e.target.result, name, date);
+            
+            // 更新进度
+            processed++;
+            const progress = Math.round((processed / files.length) * 100);
+            progressBar.style.width = `${progress}%`;
+            
+            if (processed === files.length) {
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                }, 500);
+            }
+        };
+        reader.readAsDataURL(file);
     });
 }
 
+// 添加请假条目
+function addLeaveItem(imageSrc, studentName, date, saveToStorage = true) {
+    // 隐藏空状态
+    document.getElementById('emptyState').style.display = 'none';
+    
+    const gallery = document.getElementById('leaveGallery');
+    const id = Date.now(); // 使用时间戳作为唯一ID
+    
+    const itemHTML = `
+        <div class="leave-item" data-id="${id}">
+            <img src="${imageSrc}" alt="${studentName}的请假条" class="leave-img" onclick="openModal('${imageSrc}')">
+            <div class="leave-info">
+                <div class="leave-meta">
+                    <span>${studentName}</span>
+                    <span>${date}</span>
+                </div>
+                <div class="leave-actions">
+                    <button class="btn btn-main btn-sm" onclick="openModal('${imageSrc}')">查看</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteLeaveItem(${id})">删除</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    gallery.insertAdjacentHTML('afterbegin', itemHTML);
+    
+    // 保存到本地存储
+    if (saveToStorage) {
+        saveLeaveItem(id, imageSrc, studentName, date);
+    }
+}
+
+// 保存到本地存储
+function saveLeaveItem(id, imageSrc, studentName, date) {
+    let items = [];
+    const storedItems = localStorage.getItem('leaveItems');
+    
+    if (storedItems) {
+        items = JSON.parse(storedItems);
+    }
+    
+    items.unshift({
+        id,
+        imageSrc,
+        studentName,
+        date
+    });
+    
+    localStorage.setItem('leaveItems', JSON.stringify(items));
+}
+
+// 从本地存储删除
+function removeLeaveItemFromStorage(id) {
+    let items = [];
+    const storedItems = localStorage.getItem('leaveItems');
+    
+    if (storedItems) {
+        items = JSON.parse(storedItems);
+        items = items.filter(item => item.id !== id);
+        localStorage.setItem('leaveItems', JSON.stringify(items));
+    }
+}
+
+// 删除请假条目
+function deleteLeaveItem(id) {
+    if (confirm('确定要删除这条请假记录吗？')) {
+        const item = document.querySelector(`.leave-item[data-id="${id}"]`);
+        if (item) {
+            item.remove();
+            removeLeaveItemFromStorage(id);
+            
+            // 如果没有图片了，显示空状态
+            if (document.querySelectorAll('.leave-item').length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        }
+    }
+}
+
+// 打开图片预览模态框
 function openModal(imgSrc) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     modal.style.display = "block";
     modalImg.src = imgSrc;
+    document.body.style.overflow = "hidden"; // 防止背景滚动
 }
 
+// 关闭模态框
 function closeModal() {
     document.getElementById('imageModal').style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
 // 点击模态框外部关闭
 window.onclick = function(event) {
     const modal = document.getElementById('imageModal');
     if (event.target == modal) {
-        modal.style.display = "none";
+        closeModal();
     }
 }
 </script>
