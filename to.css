@@ -193,7 +193,7 @@ h1 {
 }
 
 /* 模态框样式 */
-.modal {
+/* .modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -241,7 +241,7 @@ h1 {
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
+} */
 
 /* 响应式调整 */
 /* 禁用移动端响应式样式 */
