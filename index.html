@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 <head>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <!--script>
-   //   保留强制电脑版选项（通过URL参数控制）
-  //   if(window.location.search.includes('force_desktop=1')) {
-    //     document.querySelector('meta[name="viewport"]').content = 'width=1200';
-  //   }
-    <!--/script -->
+     <script>
+     // 保留强制电脑版选项（通过URL参数控制）
+     if(window.location.search.includes('force_desktop=1')) {
+         document.querySelector('meta[name="viewport"]').content = 'width=1200';
+     }
+     </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,7 @@
             align-items: center;
             height: 100vh;
         }
+
     </style>
     <link rel="stylesheet" href="to.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -111,7 +112,7 @@
             <a href="leave.html" class="footer-link">请假条beta</a>
             <span>|</span>
             <img src="author-avatar.jpg" alt="作者头像" class="footer-avatar" id="footerAvatar">
-            <a href="#" target="_blank" class="footer-bilibili-link" id="footerBilibiliLink">访问作者的哔哩哔哩主页</a>
+            <a href="#" target="_blank" class="footer-bilibili-link" id="footerBilibiliLink">开发者的哔哩哔哩主页</a>
         </div>
     </div>
 </div>
