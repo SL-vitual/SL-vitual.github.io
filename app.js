@@ -9,7 +9,7 @@ const CONFIG = {
     ]
 };
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('footerAvatar').src = CONFIG.avatarImage;
     document.getElementById('footerBilibiliLink').href = CONFIG.bilibiliUrl;
     
