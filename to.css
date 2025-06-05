@@ -253,6 +253,14 @@ h1 {
         backdrop-filter: none; /* 移动端禁用毛玻璃效果提升性能 */
     }
     
+
+/* 强制电脑版的特殊类 */
+.desktop-layout .container {
+    min-width: 1000px;
+    overflow-x: auto;
+}
+
+
     .timetable td {
         height: 60px;
         padding: 8px;
@@ -282,10 +290,4 @@ h1 {
         right: 20px;
         font-size: 30px;
     }
-}
-
-/* 强制电脑版的特殊类 */
-.desktop-layout .container {
-    min-width: 1000px;
-    overflow-x: auto;
 }
