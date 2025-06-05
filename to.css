@@ -2,12 +2,13 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #000000;
+    background-color: #48947a;
     background-image: url('4月掉粉月刊.png');
     background-size: cover;
     background-attachment: fixed;
     transition: all 0.3s ease;
     color: #333;
+    position: relative; /* 为body设置相对定位，以便子元素使用绝对定位 */
 }
 
 .container {
@@ -77,14 +78,37 @@ h1 {
     cursor: pointer;
 }
 
+#beijing-time {
+    font-size: 20px; /* 调整字体大小 */
+    color: #fff; /* 时间文本颜色改为白色，以便在黑色背景上显示 */
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */
+    padding: 10px 20px; /* 调整内边距 */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px; /* 设置固定宽度 */
+    height: 60px; /* 设置固定高度 */
+    line-height: 60px; /* 使文本垂直居中 */
+    box-sizing: border-box; /* 确保内边距和边框包含在宽度和高度内 */
+    position: absolute; /* 设置绝对定位 */
+    top: 70px; /* 距离顶部多少？ */
+    right: 420px; /* 距离右侧多少？ */
+    transition: all 0.3s ease; /* 添加过渡效果 */
+}
+
+
+
 /* 设置面板样式 */
 .settings-toggle {
     position: absolute;
     top: 20px;
     right: 20px;
     cursor: pointer;
-    font-size: 20px;
-    padding: 10px;
+    font-size: 20px; /* 调整字体大小 */
+    padding: 10px 20px; /* 调整内边距 */
+    border-radius: 4px; /* 调整圆角 */
+    background-color: rgba(255, 255, 255, 0.5); /* 半透明背景色 */
+    transition : all 0.3s ease; /* 添加过渡效果 */
     z-index: 10;
 }
 
@@ -244,7 +268,12 @@ h1 {
 }
 
 /* 响应式调整 */
-/* 禁用移动端响应式样式 */
+/* 电脑端适配样式 */
+.timetable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
 /* 移动端适配样式 */
 @media (max-width: 768px) {
     .container {
@@ -252,42 +281,61 @@ h1 {
         padding: 10px;
         backdrop-filter: none; /* 移动端禁用毛玻璃效果提升性能 */
     }
-    
 
-/* 强制电脑版的特殊类 */
-.desktop-layout .container {
-    min-width: 1000px;
-    overflow-x: auto;
-}
-
-
-    .timetable td {
-        height: 60px;
-        padding: 8px;
-        font-size: 12px;
+        .timetable {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
     }
     
-    .course {
-        font-size: 11px;
-        padding: 4px;
-    }
-}
-
-    .leave-gallery {
-        grid-template-columns: 1fr;
+    .timetable thead {
+        display: none; /* 移动端隐藏表头 */
     }
     
-    .leave-info {
-        padding: 8px;
+    .timetable tbody {
+        display: block;
     }
     
-    .modal-content {
-        max-width: 95%;
+    .timetable tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 80px; /* 为时间列留出空间 */
     }
     
-    .close-modal {
-        top: 10px;
-        right: 20px;
-        font-size: 30px;
+    .timetable tr:first-child {
+        border-top: 1px solid #ddd;
+    }
+    
+    /* 固定时间列 */
+    .timetable td:first-child,
+    .timetable th:first-child {
+        position: absolute;
+        left: 0;
+        width: 80px;
+        padding: 10px;
+        background: white;
+        border-right: 1px solid #ddd;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* 课程内容单元格样式 */
+    .timetable td:not(:first-child) {
+        display: block;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    /* 添加星期几标签 */
+    .timetable td:not(:first-child)::before {
+        content: attr(data-day);
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #666;
     }
 }

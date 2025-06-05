@@ -41,6 +41,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+function updateBeijingTime() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    
+    // 中文星期几映射
+    const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const weekday = weekdays[date.getDay()];
+    
+    const formattedTime = `${year}年${month}月${day}日 ${weekday} ${hours}:${minutes}:${seconds}`;
+    document.getElementById('beijing-time').textContent = formattedTime;
+}
+
+setInterval(updateBeijingTime, 1000);
+updateBeijingTime();
+
+
 function toggleSettings() {
     const panel = document.getElementById('settingsPanel');
     panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
@@ -87,6 +108,20 @@ function switchLayout(mode) {
         localStorage.setItem('preferredLayout', 'mobile');
     }
 }
+
+// 为移动端添加星期标签
+function setupMobileTable() {
+    if (window.innerWidth <= 768) {
+        const days = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+        document.querySelectorAll('.timetable td:not(:first-child)').forEach((td, index) => {
+            td.setAttribute('data-day', days[index]);
+        });
+    }
+}
+
+// 初始化和窗口大小变化时执行
+window.addEventListener('DOMContentLoaded', setupMobileTable);
+window.addEventListener('resize', setupMobileTable);
 
 // 初始化时读取用户偏好
 const savedLayout = localStorage.getItem('preferredLayout') || 'mobile';
