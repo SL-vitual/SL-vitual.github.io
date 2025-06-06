@@ -259,14 +259,14 @@ h1 {
         backdrop-filter: none; /* 移动端禁用毛玻璃效果提升性能 */
     }
     
-/*     .timetable td {
-        height: 60px;
+    .timetable td {
+        height: 30px;
         padding: 8px;
-        font-size: 12px;
+        font-size: 10px;
     }
     
     .course {
         font-size: 11px;
         padding: 4px;
     }
-} */
+}
