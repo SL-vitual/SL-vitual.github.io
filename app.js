@@ -8,37 +8,45 @@ const CONFIG = {
     ]
 };
 
+
+// 初始化课程表
 document.addEventListener('DOMContentLoaded', function() {
+    timetable.init();
     document.getElementById('footerAvatar').src = CONFIG.avatarImage;
     document.getElementById('footerBilibiliLink').href = CONFIG.bilibiliUrl;
-    
-    if(localStorage.getItem('siteAuth') !== 'true') {
-        document.getElementById('passwordProtect').style.display = 'flex';
-    }
-
-    window.checkSitePassword = function() {
-        const input = document.getElementById('sitePassword').value;
-        if(input === CONFIG.sitePassword) {
-            localStorage.setItem('siteAuth', 'true');
-            document.getElementById('passwordProtect').style.display = 'none';
-            timetable.init();
-            loadSettings();
-        } else {
-            document.getElementById('passwordError').style.display = 'block';
-            document.getElementById('sitePassword').value = '';
-            document.getElementById('sitePassword').focus();
-        }
-    };
-    
-    document.getElementById('sitePassword').addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') checkSitePassword();
-    });
-    
-    if(localStorage.getItem('siteAuth') === 'true') {
-        timetable.init();
-        loadSettings();
-    }
 });
+
+//  document.addEventListener('DOMContentLoaded', function() {
+//     document.getElementById('footerAvatar').src = CONFIG.avatarImage;
+//     document.getElementById('footerBilibiliLink').href = CONFIG.bilibiliUrl;
+    
+//     if(localStorage.getItem('siteAuth') !== 'true') {
+//         document.getElementById('passwordProtect').style.display = 'flex';
+//     }
+
+//     window.checkSitePassword = function() {
+//         const input = document.getElementById('sitePassword').value;
+//         if(input === CONFIG.sitePassword) {
+//             localStorage.setItem('siteAuth', 'true');
+//             document.getElementById('passwordProtect').style.display = 'none';
+//             timetable.init();
+//             loadSettings();
+//         } else {
+//             document.getElementById('passwordError').style.display = 'block';
+//             document.getElementById('sitePassword').value = '';
+//             document.getElementById('sitePassword').focus();
+//         }
+//     };
+    
+//     document.getElementById('sitePassword').addEventListener('keypress', function(e) {
+//         if(e.key === 'Enter') checkSitePassword();
+//     });
+    
+//     if(localStorage.getItem('siteAuth') === 'true') {
+//         timetable.init();
+//         loadSettings();
+//     }
+// });
 
 function toggleSettings() {
     const panel = document.getElementById('settingsPanel');
