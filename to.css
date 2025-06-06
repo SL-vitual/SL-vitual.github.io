@@ -259,7 +259,7 @@ h1 {
         backdrop-filter: none; /* 移动端禁用毛玻璃效果提升性能 */
     }
     
-    .timetable td {
+/*     .timetable td {
         height: 60px;
         padding: 8px;
         font-size: 12px;
@@ -269,4 +269,4 @@ h1 {
         font-size: 11px;
         padding: 4px;
     }
-}
+} */
