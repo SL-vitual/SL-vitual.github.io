@@ -248,21 +248,31 @@ h1 {
 /* 移动端适配样式 */
 /* 强制电脑版的特殊类 */
 
-@media (max-width: 768px) {
+/* 响应式调整 */
+/* 禁用移动端响应式样式 */
+/* 移动端适配样式 */
 @media (max-width: 768px) {
     .container {
-        width: 100% !important;
-        padding: 20px !important; /* 假设这是电脑端的 padding */
-        backdrop-filter: initial !important; /* 恢复毛玻璃效果或其他电脑端样式 */
+        width: 100%;
+        padding: 10px;
+        backdrop-filter: none; /* 移动端禁用毛玻璃效果提升性能 */
     }
+    
     .timetable td {
-        height: 80px !important; /* 假设这是电脑端的 height */
-        padding: 15px !important; /* 假设这是电脑端的 padding */
-        font-size: 14px !important; /* 假设这是电脑端的 font-size */
+        height: 60px;
+        padding: 8px;
+        font-size: 12px;
     }
+    
     .course {
-        font-size: 14px !important; /* 假设这是电脑端的 font-size */
-        padding: 15px !important; /* 假设这是电脑端的 padding */
+        font-size: 11px;
+        padding: 4px;
     }
+}
+
+/* 强制电脑版的特殊类 */
+.desktop-layout .container {
+    min-width: 1000px;
+    overflow-x: auto;
 }
 
