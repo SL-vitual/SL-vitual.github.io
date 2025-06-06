@@ -247,10 +247,6 @@ h1 {
 /* 禁用移动端响应式样式 */
 /* 移动端适配样式 */
 /* 强制电脑版的特殊类 */
-.desktop-layout .container {
-    min-width: 1000px;
-    overflow-x: auto;
-}
 
 @media (max-width: 768px) {
     .container {
@@ -269,4 +265,9 @@ h1 {
         font-size: 11px;
         padding: 4px;
     }
+}
+
+.desktop-layout .container {
+    min-width: 1000px;
+    overflow-x: auto;
 }
