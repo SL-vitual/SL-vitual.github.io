@@ -146,7 +146,7 @@ h1 {
 }
 
 /* 更新日志样式 */
-.changelog {
+/* .changelog {
     margin: 20px 0;
 }
 
@@ -167,7 +167,7 @@ h1 {
 
 .version li {
     margin-bottom: 8px;
-}
+} */
 
 /* 页脚链接样式 */
 .footer-links {
@@ -246,6 +246,12 @@ h1 {
 /* 响应式调整 */
 /* 禁用移动端响应式样式 */
 /* 移动端适配样式 */
+/* 强制电脑版的特殊类 */
+.desktop-layout .container {
+    min-width: 1000px;
+    overflow-x: auto;
+}
+
 @media (max-width: 768px) {
     .container {
         width: 100%;
@@ -263,10 +269,4 @@ h1 {
         font-size: 11px;
         padding: 4px;
     }
-}
-
-/* 强制电脑版的特殊类 */
-.desktop-layout .container {
-    min-width: 1000px;
-    overflow-x: auto;
 }
