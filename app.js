@@ -1,5 +1,4 @@
 const CONFIG = {
-    sitePassword: "school2303",
     bilibiliUrl: "https://space.bilibili.com/3546599114410457",
     avatarImage: "IMG_202506023085_128x128.png",
     backgroundOptions: [
