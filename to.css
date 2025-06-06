@@ -256,14 +256,14 @@ h1 {
     }
     
     .timetable td {
-        height: 100px;
+        height: 60px;
         padding: 10px;
         font-size: 10px;
     }
     
     .course {
         font-size: 11px;
-        padding: 4px;
+        padding: 11px;
     }
 }
 
