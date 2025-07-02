@@ -128,6 +128,7 @@ const timetable = (function() {
         { week: 20, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
         { week: 20, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
         { week: 20, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
+        { week: 20, day: 3, time: 1, name: "工程招投标与合同管理【补课】", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
         { week: 20, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
         { week: 20, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
         { week: 20, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
