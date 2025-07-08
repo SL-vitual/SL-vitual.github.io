@@ -182,6 +182,7 @@ const timetable = (function() {
     ];
 
     let currentWeek = 20;
+    const MIN_WEEKS = 20;
     const MAX_WEEKS = 23;
 
     return {
@@ -233,7 +234,7 @@ const timetable = (function() {
                 });
         },
         prevWeek: function() {
-            if (currentWeek > 1) {
+            if (currentWeek > MIN_WEEKS) {
                 currentWeek--;
                 this.updateWeekDisplay();
                 this.renderTimetable();
