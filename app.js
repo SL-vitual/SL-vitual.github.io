@@ -148,7 +148,6 @@ const timetable = (function() {
         { week: 21, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
         { week: 21, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
         { week: 21, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        // { week: 21, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(22, 144, 243, 0.8)" },
         { week: 22, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
         { week: 22, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
         { week: 22, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
@@ -163,7 +162,6 @@ const timetable = (function() {
         { week: 22, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
         { week: 22, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
         { week: 22, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        // { week: 22, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(22, 144, 243, 0.8)" },
         { week: 23, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
         { week: 23, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
         { week: 23, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
@@ -181,8 +179,8 @@ const timetable = (function() {
         { week: 23, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(22, 144, 243, 0.8)" },
     ];
 
-    let currentWeek = 21;
-    const MIN_WEEKS = 20;
+    let currentWeek = 20;
+    const MIN_WEEKS = 21;
     const MAX_WEEKS = 23;
 
     return {
@@ -199,7 +197,6 @@ const timetable = (function() {
             const timeSlots = [
                 '一二节08:10-09:45', '三四节10:05-11:40', 
                 '五六节14:30-16:05', '七八节16:20-17:55'
-                // '九十节19:30-21:05'
             ];
             
             timeSlots.forEach((time, timeIndex) => {
