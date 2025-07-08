@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="viewport" content="width=1200, initial-scale=1.0">
      <script>
      // 保留强制电脑版选项（通过URL参数控制）
      if(window.location.search.includes('force_desktop=1')) {
@@ -16,10 +16,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="layout-switcher">
+<!-- <div class="layout-switcher">
     <button onclick="switchLayout('mobile')">移动版</button>
     <button onclick="switchLayout('desktop')">电脑版</button>
-</div>
+</div> -->
 
 <div class="container">
     <div id="settingsPanel" class="settings-panel">
@@ -27,18 +27,25 @@
         <div class="setting-group">
             <label>背景图片:</label>
             <select id="bgSelect" onchange="changeBackground()">
-                <option value="4月掉粉月刊.png">工地工人</option>
-                <option value="粉舰周刊2.png">实验室研究员</option>
-                <option value="">无背景</option>
+                <option value="4月掉粉月刊.png">工地劳动</option>
+                <option value="粉舰周刊2.png">实验室研究</option>
+                <option value="粉舰周刊104.png">悠闲的一刻</option>
+                <option value="6月涨粉月刊.png">见习女仆莉爱</option>
+                <option value="雾雨魔理沙.png">雾雨魔理沙</option>
+                <option value="GawrGura.png">Gura小鲨鱼</option>
+                <option value="粉舰周刊103.png">文职之日常</option>
+                <option value="粉舰周刊102期.png">田间劳作</option>
+                <option value="粉舰周刊101期.png">天使的降临</option>
+                <option value="粉丝总榜5月.png">KizunaAI绊爱</option>
             </select>
         </div>
-        <div class="setting-group">
+        <!-- <div class="setting-group">
             <label>字体样式:</label>
             <select id="fontSelect" onchange="changeFont()">
                 <option value="'Arial', sans-serif">默认</option>
                 <option value="'Noto Sans SC', sans-serif">思源黑体</option>
             </select>
-        </div>
+        </div> -->
         <div class="setting-group">
             <label>透明度:</label>
             <input type="range" id="opacityControl" min="0.3" max="1" step="0.1" value="0.3" onchange="changeOpacity()">
@@ -47,7 +54,7 @@
     
     <h1>测绘1-3班方案二学生课程表</h1>
     
-    <div class="settings-toggle" onclick="toggleSettings()">⚙️</div>
+    <div class="settings-toggle" onclick="toggleSettings()">🧱</div>
     
     <div class="week-navigation" id="weekNavigation">
         <button onclick="timetable.prevWeek()" class="btn-secondary">上一周</button>
@@ -73,6 +80,20 @@
         </tbody>
     </table>
     
+    <!-- 请假条展示区 -->
+    <div class="leave-notes-container">
+        <h3>请假条</h3>
+        <div class="leave-notes-grid" id="leaveNotes"></div>
+    </div>
+
+    <!-- 图片查看模态框 -->
+    <div id="noteModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="noteImage">
+        <a class="prev">&#10094;</a>
+        <a class="next">&#10095;</a>
+    </div> 
+
     <div class="footer">
          <p>注意：劳动教育 - 林鑫涛 - 20至21周 - 周五三四节（学校文件这么写的）</p>
          <p>© 2025 测绘1-3班方案二学生课程表 - made by SL</p>

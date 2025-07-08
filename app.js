@@ -2,9 +2,16 @@ const CONFIG = {
     bilibiliUrl: "https://space.bilibili.com/3546599114410457",
     avatarImage: "IMG_202506023085_128x128.png",
     backgroundOptions: [
-        { value: "4月掉粉月刊.png", label: "工地工人" },
-        { value: "粉舰周刊2.png", label: "实验室研究员" },
-        { value: "", label: "纯白色" }
+        { value: "4月掉粉月刊.png", label: "工地劳动" },
+        { value: "粉舰周刊2.png", label: "实验室研究" },
+        { value: "粉舰周刊104.png", label: "悠闲的一刻" },
+        { value: "6月涨粉月刊.png", label: "见习女仆莉爱" },
+        { value: "雾雨魔理沙.png", label: "雾雨魔理沙" },
+        { value: "GawrGura.png", label: "Gura小鲨鱼" },
+        { value: "粉舰周刊103.png", label: "文职之日常" },
+        { value: "粉舰周刊102期.png", label: "田间劳作" },
+        { value: "粉舰周刊101期.png", label: "天使的降临" },
+        { value: "粉丝总榜5月.png", label: "KizunaAI绊爱" }
     ]
 };
 
@@ -59,11 +66,11 @@ function changeBackground() {
     localStorage.setItem('background', bg);
 }
 
-function changeFont() {
-    const font = document.getElementById('fontSelect').value;
-    document.body.style.fontFamily = font;
-    localStorage.setItem('fontFamily', font);
-}
+// function changeFont() {
+//     const font = document.getElementById('fontSelect').value;
+//     document.body.style.fontFamily = font;
+//     localStorage.setItem('fontFamily', font);
+// }
 
 function changeOpacity() {
     const opacity = document.getElementById('opacityControl').value;
@@ -76,111 +83,186 @@ function loadSettings() {
     document.getElementById('bgSelect').value = savedBg;
     document.body.style.backgroundImage = savedBg ? `url(${savedBg})` : 'none';
 
-    const savedFont = localStorage.getItem('fontFamily') || "'Arial', sans-serif";
-    document.getElementById('fontSelect').value = savedFont;
-    document.body.style.fontFamily = savedFont;
+    // const savedFont = localStorage.getItem('fontFamily') || "'Arial', sans-serif";
+    // document.getElementById('fontSelect').value = savedFont;
+    // document.body.style.fontFamily = savedFont;
 
     const savedOpacity = localStorage.getItem('containerOpacity') || '0.7';
     document.getElementById('opacityControl').value = savedOpacity;
     document.querySelector('.container').style.background = `rgba(255, 255, 255, ${savedOpacity})`;
 }
 
-function switchLayout(mode) {
-    if(mode === 'desktop') {
-        document.body.classList.add('desktop-layout');
-        localStorage.setItem('preferredLayout', 'desktop');
-    } else {
-        document.body.classList.remove('desktop-layout');
-        localStorage.setItem('preferredLayout', 'mobile');
-    }
-}
+// function switchLayout(mode) {
+//     if(mode === 'desktop') {
+//         document.body.classList.add('desktop-layout');
+//         localStorage.setItem('preferredLayout', 'desktop');
+//     } else {
+//         document.body.classList.remove('desktop-layout');
+//         localStorage.setItem('preferredLayout', 'mobile');
+//     }
+// }
 
 // 初始化时读取用户偏好
-const savedLayout = localStorage.getItem('preferredLayout') || 'mobile';
-switchLayout(savedLayout);
+// const savedLayout = localStorage.getItem('preferredLayout') || 'mobile';
+// switchLayout(savedLayout);
+
+// 请假条数据 (示例)
+const leaveNotes = [
+    { id: 1, img: "请假1.jpg", title: "请假条" },
+    // 添加更多请假条...
+];
+
+// 渲染请假条
+function renderLeaveNotes() {
+    const container = document.getElementById('leaveNotes');
+    container.innerHTML = leaveNotes.map(note => `
+        <div class="leave-note" data-id="${note.id}"> 
+             <img src="${note.img}" alt="${note.title}">
+             <div class="note-title">${note.title.split(' ')[0]}</div>
+             <button class="close-btn" style="display:none">×</button>
+        </div>
+    `).join('');
+
+    // 添加点击事件
+    document.querySelectorAll('.leave-note').forEach(note => {
+        note.addEventListener('click', function() {
+            if(this.classList.contains('expanded')) return;
+            this.classList.add('expanded');
+            this.querySelector('.close-btn').style.display = 'block';// 放大效果
+            this.querySelector('.close-btn').addEventListener('click', (e) => {
+                e.stopPropagation();// 添加关闭事件
+                this.classList.remove('expanded');
+                this.querySelector('.close-btn').style.display = 'none';
+                });
+        });
+    });    
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', renderLeaveNotes);
+
+// 模态框控制
+let currentNoteIndex = 0;
+
+function openModal(id) {
+    const modal = document.getElementById('noteModal');
+    const modalImg = document.getElementById('modalImage');
+    
+    currentNoteIndex = leaveNotes.findIndex(note => note.id == id);
+    modalImg.src = leaveNotes[currentNoteIndex].img;
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById('noteModal').style.display = "none";
+}
+
+function changeNote(n) {
+    currentNoteIndex += n;
+    if (currentNoteIndex >= leaveNotes.length) currentNoteIndex = 0;
+    if (currentNoteIndex < 0) currentNoteIndex = leaveNotes.length - 1;
+    document.getElementById('modalImage').src = leaveNotes[currentNoteIndex].img;
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', function() {
+    renderLeaveNotes();
+    
+    // 模态框事件
+    document.querySelector('.close').addEventListener('click', closeModal);
+    document.querySelector('.prev').addEventListener('click', () => changeNote(-1));
+    document.querySelector('.next').addEventListener('click', () => changeNote(1));
+    
+    // 点击空白处关闭
+    window.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('noteModal')) {
+            closeModal();
+        }
+    });
+});
 
 const timetable = (function() {
     const timetableData = [
         // { week: 16, day: 1, time: 4, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "线上", color: "rgba(22, 144, 243, 0.8)" },
-        // { week: 16, day: 2, time: 3, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼504", color: "rgba(0, 255, 0, 0.8)" },
-        // { week: 16, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        // { week: 16, day: 4, time: 3, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
+        // { week: 16, day: 2, time: 3, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼504", color: "rgba(247, 220, 103, 0.8)" },
+        // { week: 16, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        // { week: 16, day: 4, time: 3, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
         // { week: 16, day: 5, time: 2, name: "大学生创新创业基础5", teacher: "柴旺", classroom: "阶梯教室二", color: "rgba(255, 102, 102, 0.8)" },
         // { week: 17, day: 1, time: 4, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "线上", color: "rgba(22, 144, 243, 0.8)" },
-        // { week: 17, day: 2, time: 3, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼504", color: "rgba(0, 255, 0, 0.8)" },
-        // { week: 17, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        // { week: 17, day: 4, time: 3, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
+        // { week: 17, day: 2, time: 3, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼504", color: "rgba(247, 220, 103, 0.8)" },
+        // { week: 17, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        // { week: 17, day: 4, time: 3, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
         // { week: 17, day: 5, time: 2, name: "大学生创新创业基础5", teacher: "柴旺", classroom: "阶梯教室二", color: "rgba(255, 102, 102, 0.8)" },
         // { week: 18, day: 1, time: 4, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "线上", color: "rgba(22, 144, 243, 0.8)" },
-        // { week: 18, day: 2, time: 3, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼504", color: "rgba(0, 255, 0, 0.8)" },
-        // { week: 18, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        // { week: 18, day: 4, time: 3, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
+        // { week: 18, day: 2, time: 3, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼504", color: "rgba(247, 220, 103, 0.8)" },
+        // { week: 18, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        // { week: 18, day: 4, time: 3, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
         // { week: 18, day: 5, time: 2, name: "大学生创新创业基础5", teacher: "柴旺", classroom: "阶梯教室二", color: "rgba(255, 102, 102, 0.8)" },
         // { week: 19, day: 1, time: 4, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "线上", color: "rgba(22, 144, 243, 0.8)" },
-        // { week: 19, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 20, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 20, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 20, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 20, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 20, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 20, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 20, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 20, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 20, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 20, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 20, day: 3, time: 1, name: "工程招投标与合同管理【补课】", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 20, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 20, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 20, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 20, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 20, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(22, 144, 243, 0.8)" },
-        { week: 21, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 21, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 21, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 21, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 21, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 21, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 21, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 21, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 21, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 21, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 21, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 21, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 21, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 21, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 22, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 22, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 22, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 22, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 22, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 22, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 22, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 22, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 22, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 22, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 22, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 22, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 22, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 22, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 23, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 23, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 23, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 23, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 23, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 23, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 23, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 23, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(255, 153, 51, 0.8)" },
-        { week: 23, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 23, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(0, 255, 0, 0.8)" },
-        { week: 23, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 23, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(153, 255, 204, 0.8)" },
-        { week: 23, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 23, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(33, 150, 243, 0.8)" },
-        { week: 23, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(22, 144, 243, 0.8)" },
+        // { week: 19, day: 3, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 20, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 20, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 20, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 20, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 20, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 20, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 20, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 20, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 20, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 20, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 20, day: 3, time: 1, name: "工程招投标与合同管理【补课】", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 20, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 20, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 20, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 20, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 20, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(252, 66, 227, 0.8)" },
+        { week: 21, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 21, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 21, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 21, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 21, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 21, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 21, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 21, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 21, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 21, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 21, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 21, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 21, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 21, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 22, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 22, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 22, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 22, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 22, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 22, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 22, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 22, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 22, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 22, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 22, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 22, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 22, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 22, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 23, day: 0, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 23, day: 0, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 23, day: 0, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 23, day: 0, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 23, day: 1, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 23, day: 1, time: 1, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 23, day: 2, time: 0, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 23, day: 2, time: 1, name: "工程招投标与合同管理", teacher: "陈广城", classroom: "交通楼201", color: "rgba(168, 230, 191, 0.8)" },
+        { week: 23, day: 2, time: 2, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 23, day: 3, time: 0, name: "工程建设法律法规", teacher: "陈伟强", classroom: "交通楼201", color: "rgba(247, 220, 103, 0.8)" },
+        { week: 23, day: 3, time: 2, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 23, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
+        { week: 23, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 23, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
+        { week: 23, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(252, 66, 227, 0.8)" },
     ];
 
     let currentWeek = 20;
-    const MIN_WEEKS = 21;
+    const MIN_WEEKS = 20;
     const MAX_WEEKS = 23;
 
     return {
