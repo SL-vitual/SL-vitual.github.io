@@ -109,6 +109,7 @@ function loadSettings() {
 // 请假条数据 (示例)
 const leaveNotes = [
     { id: 1, img: "请假1.jpg", title: "请假条" },
+    { id: 2, img: "微信图片_20250709092956_3.jpg", title: "请假条"}
     // 添加更多请假条...
 ];
 
