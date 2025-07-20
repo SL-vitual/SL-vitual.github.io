@@ -5,13 +5,9 @@ const CONFIG = {
         { value: "4月掉粉月刊.png", label: "工地劳动" },
         { value: "粉舰周刊2.png", label: "实验室研究" },
         { value: "粉舰周刊104.png", label: "悠闲的一刻" },
-        { value: "6月涨粉月刊.png", label: "见习女仆莉爱" },
-        { value: "雾雨魔理沙.png", label: "雾雨魔理沙" },
-        { value: "GawrGura.png", label: "Gura小鲨鱼" },
         { value: "粉舰周刊103.png", label: "文职之日常" },
         { value: "粉舰周刊102期.png", label: "田间劳作" },
         { value: "粉舰周刊101期.png", label: "天使的降临" },
-        { value: "粉丝总榜5月.png", label: "KizunaAI绊爱" }
     ]
 };
 
@@ -259,10 +255,10 @@ const timetable = (function() {
         { week: 23, day: 3, time: 3, name: "信息技术（专升本提升课）", teacher: "雷杰", classroom: "交通楼303", color: "rgba(164, 177, 248, 0.8)" },
         { week: 23, day: 4, time: 0, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
         { week: 23, day: 4, time: 1, name: "安全生产管理", teacher: "杜喜朋", classroom: "交通楼201", color: "rgba(255, 128, 96, 0.8)" },
-        { week: 23, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "教学楼510", color: "rgba(252, 66, 227, 0.8)" },
+        { week: 23, day: 4, time: 3, name: "就业指导", teacher: "黄雪媛+郑彦汝", classroom: "线上", color: "rgba(252, 66, 227, 0.8)" },
     ];
 
-    let currentWeek = 20;
+    let currentWeek = 23;
     const MIN_WEEKS = 20;
     const MAX_WEEKS = 23;
 
