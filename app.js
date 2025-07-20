@@ -7,7 +7,6 @@ const CONFIG = {
         { value: "粉舰周刊104.png", label: "悠闲的一刻" },
         { value: "粉舰周刊103.png", label: "文职之日常" },
         { value: "粉舰周刊102期.png", label: "田间劳作" },
-        { value: "粉舰周刊101期.png", label: "天使的降临" },
     ]
 };
 
